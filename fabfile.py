@@ -27,18 +27,22 @@ def require_function(func_name):
 def function_exists(func_name):
     return bool(local("which %s" % func_name, capture=True))
 
-def project_setup(name, requirements_in):
-    if requirements_in:
-        local("pip install -r %s" % requirements_in)
-    else:
-        local("pip install ipython")
-        local("pip install django")
-        local("django-admin.py startproject %s" % name)
-        with lcd(name):
-            local("pip freeze > requirements.txt")
+def project_setup(name, init_git, empty, requirements_in):
+    if not empty: 
+        if requirements_in:
+            local("pip install -r %s" % requirements_in)
+        else:
+            local("pip install ipython")
+            local("pip install django")
+    local("django-admin.py startproject %s" % name)
+    with lcd(name):
+        local("pip freeze > requirements.txt")
+
+        if init_git:
+            local("git init")
 
 
-def create(name, requirements_in=False):
+def create(name, init_git = True, empty=False, requirements_in=False):
     require_variable("VIRTUALENVWRAPPER_HOOK_DIR")
     require_function("pip")
     require_function("python")
@@ -55,7 +59,7 @@ def create(name, requirements_in=False):
 
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with prefix("workon %s" % name):
-            project_setup(name, requirements_in)
+            project_setup(name, init_git, empty, requirements_in)
 
 def remove(name):
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
