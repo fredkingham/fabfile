@@ -1,6 +1,6 @@
 import os
 import sys
-from fabric.api import local, env, prefix
+from fabric.api import local, env, prefix, task
 from fabric.context_managers import settings, lcd
 env.host_string = "localhost"
 VIRTUAL_ENV_WRAPPER = "/usr/local/bin/virtualenvwrapper.sh"
@@ -41,7 +41,7 @@ def project_setup(name, init_git, empty, requirements_in):
         if init_git:
             local("git init")
 
-
+@task
 def create(name, init_git = True, empty=False, requirements_in=False):
     require_variable("VIRTUALENVWRAPPER_HOOK_DIR")
     require_function("pip")
@@ -61,6 +61,7 @@ def create(name, init_git = True, empty=False, requirements_in=False):
         with prefix("workon %s" % name):
             project_setup(name, init_git, empty, requirements_in)
 
+@task
 def remove(name):
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with settings(warn_only=True):
