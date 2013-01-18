@@ -38,10 +38,8 @@ def project_setup(project_name, django_name, init_git, empty, requirements_in):
     local("mkdir %s" % project_name)
 
     with lcd(project_name):
-        local("django-admin.py startproject %s" % django_name)
-        with lcd(project_name):
-            local("pip freeze > requirements.txt")
-
+        local("django-admin.py startproject %s" % django_name)        
+        local("pip freeze > requirements.txt")
         if init_git:
             local("git init")
 
