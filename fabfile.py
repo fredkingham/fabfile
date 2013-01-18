@@ -37,7 +37,7 @@ def project_setup(project_name, django_name, init_git, empty, requirements_in):
 
 
     local("django-admin.py startapp --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % project_name)
-    old_name = os.join("django-simple-app", project_name)
+    old_name = os.path.join("django-simple-app", project_name)
     local("mv %s %s" % (old_name, project_name))
 
     with lcd(project_name):
