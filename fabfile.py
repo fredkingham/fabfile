@@ -44,11 +44,14 @@ def project_setup(project_name, django_name, init_git, empty, requirements_in):
             local("git init")
 
 @task
-def create(project_name, django_name, init_git = True, empty=False, requirements_in=False):
+def create(project_name, django_name = None, init_git = True, empty=False, requirements_in=False):
     require_variable("VIRTUALENVWRAPPER_HOOK_DIR")
     require_function("pip")
     require_function("python")
     require_function("git")
+    
+    if not django_name:
+        django_name = project_name.replace("-", "_")
 
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with settings(warn_only=True):
