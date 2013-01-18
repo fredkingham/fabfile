@@ -35,10 +35,12 @@ def project_setup(project_name, django_name, init_git, empty, requirements_in):
             local("pip install ipython")
             local("pip install django")
 
-    local("mkdir %s" % project_name)
+
+    local("django-admin.py startapp --template=https://github.com/fredkingham/django-simple-app/archive/master.zip %s" % project_name)
+    old_name = os.join("django-simple-app", project_name)
+    local("mv %s %s" % (old_name, project_name))
 
     with lcd(project_name):
-        local("django-admin.py startapp --template=https://github.com/githubuser/django-app-template/archive/master.zip %s" % django_name)        
         local("pip freeze > requirements.txt")
         if init_git:
             local("git init")
