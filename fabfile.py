@@ -27,22 +27,26 @@ def require_function(func_name):
 def function_exists(func_name):
     return bool(local("which %s" % func_name, capture=True))
 
-def project_setup(name, init_git, empty, requirements_in):
+def project_setup(project_name, django_name, init_git, empty, requirements_in):
     if not empty: 
         if requirements_in:
             local("pip install -r %s" % requirements_in)
         else:
             local("pip install ipython")
             local("pip install django")
-    local("django-admin.py startproject %s" % name)
-    with lcd(name):
-        local("pip freeze > requirements.txt")
+
+    local("mkdir %s" % project_name)
+
+    with lcd(project_name):
+        local("django-admin.py startproject %s" % django_name)
+        with lcd(project_name):
+            local("pip freeze > requirements.txt")
 
         if init_git:
             local("git init")
 
 @task
-def create(name, init_git = True, empty=False, requirements_in=False):
+def create(project_name, django_name, init_git = True, empty=False, requirements_in=False):
     require_variable("VIRTUALENVWRAPPER_HOOK_DIR")
     require_function("pip")
     require_function("python")
@@ -51,21 +55,21 @@ def create(name, init_git = True, empty=False, requirements_in=False):
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with settings(warn_only=True):
             virtual_envs = local("workon", capture=True).splitlines()
-            if name in virtual_envs:
-                raise Exception("virtual env %s already exists" % name)
+            if project_name in virtual_envs:
+                raise Exception("virtual env %s already exists" % project_name)
 
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
-        local("mkvirtualenv --no-site-packages %s" % name)
+        local("mkvirtualenv --no-site-packages %s" % project_name)
 
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
-        with prefix("workon %s" % name):
-            project_setup(name, init_git, empty, requirements_in)
+        with prefix("workon %s" % project_name):
+            project_setup(project_name, django_name, init_git, empty, requirements_in)
 
 @task
-def remove(name):
+def remove(project_name):
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with settings(warn_only=True):
-            local("rmvirtualenv %s" % name)
-            local("rm -r %s" % name)
+            local("rmvirtualenv %s" % project_name)
+            local("rm -r %s" % project_name)
 
 
