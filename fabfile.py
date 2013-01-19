@@ -36,7 +36,7 @@ def project_setup(name, init_git, empty, requirements_in):
             local("pip install django")
 
 
-    local("django-admin.py startapp --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % name)
+    local("django-admin.py startproject --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % name)
 
     with lcd(name):
         local("pip freeze > requirements.txt")
