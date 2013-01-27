@@ -1,0 +1,124 @@
+<div data-bind="if: $root.objects.eventCreator">
+<div data-bind="'with': $root.objects.eventCreator">
+<div class="span12" style="margin-top: 40px;">
+
+    <form id="createEvent" action="/!event_creator_from_html/" enctype="multipart/form-data" method="POST" class="navbar-form" data-bind="submit: post">
+        <div style="text-align: center; margin-top: 50px">
+            <div class="row-fluid">
+                <div class="span3 event-element">
+                    <div class="submit-img">
+                        <div class="large file-field" data-bind="style: { 'backgroundImage': imgUrl() ? 'url(' + imgUrl() + ')': loadingPreview() ? 'url(/static/figg_main_page/imgs/loading2.gif)' : 'url(/umedia/' + $root.objects.userDetails.img() + ')' }">
+                            <input type="file" accept="image/*" name="img" data-bind="value: img, fileAdded: img, previewFunc: function(files){ $data.uploadPreview(files) }" />
+                        </div>
+                        <div data-bind="text: fileName"></div>
+                        <div data-bind="if: img()"> <a href="" data-bind="click: function(){ cancelPreview($data) }">cancel</a> </div>
+                    </div>
+                </div>
+                <div class="span9" >
+                    <div class="row-fluid">
+                    <div class="row-fluid">
+                    	<fieldset data-bind="css: { 'error' : ((errorTitle() && !eventFocused()) || (title().length > 100))}" class="control-group">
+                        <textarea class="span12" data-bind="hasfocus: eventFocused, value: title, valueUpdate: 'keyup'" autocomplete="off" type="text" name="title" placeHolder="what's going on" />
+                        </textarea>
+                    	</fieldset>
+                    </div>
+                    <div class="row-fluid"><div class="span11 bottom-event-option">
+                        <a data-bind="click: openInvites" href="">invite</a>
+                        <a data-bind="click: getVenue"><span data-bind="if: !venueName()">add venue</span><span data-bind="text: venueName"></span></a>
+                        <a data-bind="click: toggleDescription" href="">
+                        <span data-bind="if: revealedDescription">hide description</span>
+                        <span data-bind="if: !revealedDescription()">add description</span>
+                        </a>
+                        <a data-bind="click: toggleRepeat" href="">
+                        <span data-bind="if: revealedRepeat">single event</span>
+                        <span data-bind="if: !revealedRepeat()">repeat event</span>
+                        </a>
+                        <a data-bind="click: togglePrivate" href=""><span data-bind="if: !private()">make private</span><span data-bind="if: private">make public</span></a>    
+                    </div>
+                        <div data-bind="if: title().length" class="span1">
+                            <span data-bind="text: title().length, css: { 'error': title().length > 100 }">10</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row-fluid">
+                        <div style="margin-bottom: 20px" class="span11">
+                            <input placeholder="date" data-bind="datepicker: eventDate, datepickerOptions: { minDate: new Date(), dateFormat: 'd M yy' }" type="text" class="pull-left input-small small-date-field" name="event_date"/>
+                            <input placeholder="time" type="text" data-bind="value: eventTime" class="pull-left input-small small-date-field" name="event_time"/>
+                        </div>
+                   </div>
+                </div>
+            </div>
+                    </div>
+            <div class="row-fluid" data-bind="slideVisible: revealedDescription" style="display: None">
+                <div class="span3">
+                <h4>description</h4>
+                </div>
+                <div class="span9 pull-content-left">
+                    <textarea name="description" class="span12 description" data-bind="value: description, valueUpdate: 'keyup'" ></textarea>
+                    <div class="row-fluid">
+                    <div data-bind="if: description().length" class="pull-content-centre offset11 span1">
+                    <span data-bind="text: description().length, css: { 'error': description().length > 250 }"></span>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+
+            <div class="row-fluid" data-bind="slideVisible: revealedRepeat">
+                <div style="vertical-align: middle" class="span3">
+                <h4>repeat</h4>
+                </div>
+                <div style="margin-bottom: 20px;" class="span4 pull-content-left">           
+                <label class="inline">
+                <select data-bind="value: repeatEvent" form="createEvent" multiple="multiple" value="repeatEvent">
+                    <option value="HOURLY">hourly</option>
+                    <option value="DAILY">daily</option>
+                    <option value="WEEKLY">weekly</option>
+                    <option value="YEARLY">yearly</option>
+                </select>
+                </label>
+                </div>
+                <div class="pull-content-left span4">
+                until (inclusive)
+                <label>
+              <input placeholder="date" data-bind="datepicker: repeatUntil, datepickerOptions: { minDate: new Date(), dateFormat: 'd M yy' }" type="text" class="pull-left input-small small-date-field" name="untilDate" value="repeatUntil" />              
+              </label>
+              </div>
+
+            </div>
+
+        <div class="row-fluid" data-bind="slideVisible: invitees().length">
+            <div style="vertical-align: middle" class="span3"> <h4>invitees</h4> </div>
+            <div data-bind="foreach: invitees_details()" style="margin-bottom: 20px;" class="span9 pull-content-left"> 
+                <img class="small-corners" data-bind="attr: { 'src': {{ MEDIA_URL }} + img, 'title': name }" />
+            </div>
+        </div>
+
+
+
+
+
+            <div data-bind="text: errorText"></div>
+        <div class="row-fluid">
+            <div class="span10 offset2" style="margin-bottom: 200px">
+                <button value="submit" class="btn btn-primary span5">create</button>
+                <button data-bind="click: closeBox" class="btn span5">cancel</button>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+                        <div class="span12" style="display: None">
+                        <input type="checkbox" name="public" data-bind="checked: !private()">
+                        <input type="text" name="event_venue" data-bind="text: venueId">
+                        <input type="text" name="invited" data-bind="value: invitees().join()">
+                        </div>
+        </div>
+    </form>
+
+</div>
+</div>
+</div>
+

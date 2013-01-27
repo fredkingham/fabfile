@@ -1,0 +1,26 @@
+  <section id="top-dates">
+  <div class="row-fluid">
+  <div id="dateLine" data-bind="with: $root.objects.dateLineManager" class="dateline navbar navbar-fixed-top">
+    <a class="date-end date-left-end dateline-members" data-bind="click: function(){ $root.objects.dateLineManager().goBack(true) } ">
+      ←
+    </a>  
+    <a class="date-end date-right-end dateline-members" data-bind="click: function(){ $root.objects.dateLineManager().goForward(true) }">
+      →
+    </a>  
+    <div class="dates-container" data-bind="foreach: {'data': dates, 'afterRender': registerJquery}">
+      <a rel="tooltip" class="dateline-members dateline-section" data-bind="
+        css: {
+              'dateline-member-last': date.getDate() === $root.objects.dateLineManager().dates.length, 
+              'active': date.equalDate($root.objects.dateLineManager().active()) && !date.equalDate($root.objects.docInfo.today()),
+              'today': date.equalDate($root.objects.docInfo.today()),
+             },
+        attr: {'title': date.displayName(), 'href': url} 
+         ">
+     <span data-bind="text: date.getDate(), css: {'weekend': date.getShortDayName() === 'Sat' || date.getShortDayName() === 'Sun'}"></span>
+     <br />
+      <span class="timeline-attending" data-bind="text: occurances"></span>
+     </a>
+      </div>
+  </div>
+  </div>
+  </section>

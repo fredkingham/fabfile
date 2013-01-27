@@ -1,0 +1,77 @@
+<script type="text/html" id="note">
+<div class="row-fluid">
+  <div class ="span10 offset1">
+
+   <div class="bottom-container" data-bind="with: discuss"> 
+     <div data-bind="css: {'loading': !notesLoaded }">
+  
+<div class="box-closer"><a data-bind="click: closeBox" class="close">&times;</a></div>
+<div data-bind="visibility: notes.length">
+notes from people you're tracking
+</div>
+
+<div data-bind="foreach: notes">
+  <div class="well note" data-bind="css: { 'well' : !highlighted, 'well-highlighted': highlighted }">
+<!-- ko if: sharedx() -->
+<a class="pull-right" data-bind="click: $data.share">shared</a>
+<!-- /ko -->
+<!-- ko if: !sharedx() -->
+<a class="pull-right" data-bind="click: $data.share">share</a>
+<!-- /ko -->
+
+<h4 style="vertical-align: middle">
+<img class="small-corners" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + img, 'title': creator }"/>
+<span data-bind="text: creator"></span>:
+</h4>
+<div data-bind="text: description"></div>
+<div class="pull-right" data-bind="if: shares.length">
+shared by 
+<span data-bind='foreach: shares'>
+<img class="small-corners" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + sharer_img, 'title': sharer }"/>
+</span>
+</div>
+<!-- ko if: shares.length -->
+<div style="margin-bottom: 20px"></div>
+<!-- /ko -->
+</div>
+<!-- ko if: details -->
+<div class="well-next" data-bind="hoverToggle: $data.setDetailButton">
+<!-- ko if: acceptedx() -->
+<div class="btn btn-primary pull-right shared" data-bind="click: $data.accept">accepted</div>
+<!-- /ko -->
+<!-- ko if: !acceptedx() && detailButton -->
+<div class="btn btn-primary pull-right share" data-bind="click: $data.accept">accept</div>
+<!-- /ko -->
+<span data-bind="foreach: approvals">
+  <img class="small-corners" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + accepter_img, 'title': 'accepter' }"/>
+</span>
+<div>moved to <span data-bind="text: to_date"></span></div>
+</div>
+<!-- /ko -->
+</div>
+</div>
+{% csrf_token %}
+<div style="padding: 20px 15px"> 
+  <form data-bind="submit: post">
+<label class="well">@send this note to people, notes can also be seen by your followers
+</label>
+<fieldset class="control-group">
+  <textarea data-bind="value: description, valueUpdate: 'keyup', event: { focusout: function(){ analyseUsers($data) } }" type="text" class="text-area medium-container-main-box form-description span" name="what" placeHolder="tell me about it"></textarea>
+</fieldset>
+<div data-bind="visible: invitees().length" class="inviteBox">
+<h4>Invites</h4>
+<div data-bind="foreach: invitees" class="eventInvited">
+  <span data-bind="text: $data" class="label label-info"></span>
+</div>
+</div>
+<div style="margin-top: 5px" class="row-fluid">
+  <button type="submit" class="btn btn-primary span2 figg-button our-button" >Post</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</script>
+
+

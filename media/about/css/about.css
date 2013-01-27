@@ -1,0 +1,42 @@
+.red-title{
+  color: #D11147;
+  text-shadow: 1px 1px 1px #A0144E; 
+}
+
+.blue-title{
+  color: #0088CC; 
+  text-shadow: 1px 1px 1px #004466; 
+}
+
+.title{
+  font-family: Arvo, 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+  margin-top: 50px;
+  font-size: 40px;
+}
+
+.title-word{
+  font-size: 80px;
+}
+
+.text{
+  letter-spacing:1px; 
+  font-family: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-right: 4%;
+}
+
+.text-container{
+  margin-top: 40px; 
+  margin-bottom: 40px;
+}
+
+.large-container{
+  margin-top: 50px;
+  min-height: 400px; 
+  text-align: left; 
+  float: None; 
+  margin: 5% auto
+}
+
+.centre-content{
+  text-align: center;
+}

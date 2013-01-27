@@ -1,0 +1,24 @@
+{% extends "mail_base.html" %} 
+{% block content %}
+<table style="color: #333333; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" cellpadding="0" cellspacing="0" border="0" align="center">
+<tr>
+<td>
+<a href="{{ HOME }}{% url mainPage.views.main_page %}"><img height="50%" width="50%" src="{{ HOME }}{{ STATIC_URL }}trans-logo.png" /></a>
+</td>
+<td width="560">
+</td>
+</tr>
+<tr height="10"><td></td><td></td></tr>
+
+<tr>
+<td colspan="2" style="padding-left: 10px; padding-right: 10px" width="700" valign="bottom">
+
+<table><tr>
+<td>
+  {{ name }} please click <a href="{{ HOME }}{% url twitter.views.email_request username=username email_hash=email_hash %}">here</a> to confirm that this is, in fact, you 
+</td>
+</tr>
+</table>
+
+
+{% endblock %}

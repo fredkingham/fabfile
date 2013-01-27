@@ -1,0 +1,6 @@
+YOUR_CAL="you"
+INVITES="invites!"
+TWITTER_CALS="twitter people"
+POPULAR_CALS="popular people"
+POPULAR_TAGS="popular tags"
+CAL_TYPES=[YOUR_CAL, TWITTER_CALS, POPULAR_CALS, POPULAR_TAGS]

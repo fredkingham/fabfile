@@ -1,0 +1,26 @@
+<!-- update holder -->
+<div data-bind="if: $root.objects.updateHolder">
+<div data-bind="with: $root.objects.streamHolder">
+<!-- ko if: !loading() -->
+<div id="events" data-bind="foreach: events">
+<!-- ko if: $root.objects.updateHolder().dateChange($index) -->
+<div data-bind="template: { 'name': 'datetmp', 'data': $root.dateTitleFactory(date) }"></div>
+<!-- /ko -->
+
+<!-- ko if: !$root.objects.updateHolder().dateChange($index) -->
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<!-- /ko -->
+<div class="event" data-bind="template: { name: type }"></div>
+</div>
+<!-- /ko -->
+</div>
+<!-- end of updates holder -->
+
+<div data-bind="scrollBottom: events().length && updatingBottom() && !loading(), scrollOptions: { 'loadFunc': updateBottom }">
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<div data-bind="template: {'name': 'loading'}"></div>
+</div>
+</div>
+<!-- end update holder -->

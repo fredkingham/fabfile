@@ -1,0 +1,50 @@
+<!-- profile holder -->
+<div data-bind="if: $root.objects.profileHolder">
+<div data-bind="with: $root.objects.profileHolder">
+
+    <div class="row-fluid">
+        <div class="span7">
+          <h2 style="margin-left: 10px">Who you're tracking <img style="display: inline" src="{{ STATIC_URL }}main/img/icons/tracks-grey.png"></h2>
+        </div>
+    </div>
+
+    <div data-bind="foreach: calTypeOrder">
+        <!-- ko if: $parent.getChildOfType($data).length -->
+        <div style="margin-top: 20px"></div>
+        <div class="row-fluid">
+          <div class="span7 profile-title" data-bind="hoverToggle: 'hover'">
+                <h2 data-bind="text: $data"></h2>
+                <a data-bind="click: function(){ $parent.selectAll($data) }" class="profile-options" href="#">select all</a>
+                <a data-bind="click: function(){ $parent.removeAll($data) }" class="profile-options" href="#">remove all</a>
+            </div>
+        </div>
+
+            <div data-bind="foreach: $parent.getChunksOfType($data)">
+              <div class="row-fluid">
+                <div data-bind="foreach: $data">
+                  <!-- profile element -->
+                  <div class="span3 filter-option-text pull-left">
+                    <div class="large" data-bind="css: { 'profile-holder-selected': selected(), 'profile-holder': !selected()}, click: function(){ $root.objects.profileHolder().clickCalendar($data) }, hoverToggle: 'hover'">
+                      <div style="float: right; margin-top: -10px">
+                        <i data-bind="css: { 'icon-minus-sign': selected(), 'icon-plus-sign': !selected()}"></i>
+                      </div>
+                      <!-- ko if: onlyTag() -->
+                        <span>#<span class="filter-option-detail" data-bind="text: tag"></span></span>
+                      <!-- /ko -->
+
+                      <!-- ko if: !onlyTag() -->
+                        <div> <img class="large type-cal-img" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + img }" /> </div>
+                        <span class="filter-option-detail" data-bind="text: cal"></span>
+                      <!-- /ko -->
+                    </div>
+                </div>
+                <!-- closing profile element -->
+              </div>
+            </div>
+          </div>
+            <!-- /ko -->
+        </div>
+        </div>
+      </div>
+    
+        <!-- end profile holder -->

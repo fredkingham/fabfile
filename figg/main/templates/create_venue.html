@@ -1,0 +1,26 @@
+{% extends "site_base.html" %}
+{% block main_content %}
+{% csrf_token %}
+<form action="/!cov/" method="post">
+  <div><div class="create-venue-form">name </div><input class="text-area" name="name" type="text" /></div>
+  <div><div class="create-venue-form">first line of address </div><input class="text-area" name="address" type="text" /></div>
+  <div><div class="create-venue-form">postcode  </div><input class="text-area" name="postcode" type="text" /></div>
+  <div><div class="create-venue-form">website  </div><input class="text-area" name="website" type="text" /></div>
+  <div><div class="create-venue-form">yours </div><input name="private" type="checkbox" /></div>
+<div><div class="create-venue-form" style="width: inherit">(if its yours only you can use it)</div></div>
+<br /><br />
+  <div class="create-venue-form"><input type="submit" value="Submit" /></div>
+</form>
+
+{% if errors %}
+<div style="margin-left: 300px;">
+<br />oh golly there seems to be a problem <br />
+{% for error in errors %}
+  {{ error }}<br />
+{% endfor %}
+</div>
+{% endif %}
+ 
+
+{% endblock %}
+  

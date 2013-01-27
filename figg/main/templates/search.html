@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+
+{% comment %}
+{% block events %}
+<div data-bind="with: objects.eventHolder">
+
+<div data-bind="text: noEvents"></div>
+<div data-bind="if: loading">
+  <div id="cals-load">
+  <img alt="loading" src="{{ STATIC_URL }}loading.gif"/>
+</div>
+</div>
+
+<div data-bind="if: events.length">
+<h2>similar events</h2>
+</div>
+<div data-bind="foreach: events" id="events">
+<!-- ko if: $root.objects.eventHolder.dateChange($index) -->
+<div data-bind="template: { 'name': 'datetmp', 'data': $root.dateTitleFactory(date) }"></div>
+<!-- /ko -->
+<!-- ko if: !$root.objects.eventHolder.dateChange($index) -->
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<!-- /ko -->
+<div data-bind="template: {'name': 'eventTmp'}"></div>
+</div>
+
+<div data-bind="scroll: updating() && !loading(), scrollOptions: { 'loadFunc': update }">
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<div class="loading"></div>
+</div>
+</div>
+{% endblock events %}
+{% endcomment %}
+
+{% block time-line-fields %}
+<div data-bind="with: objects.userSearchHolder">
+<div class="type-dividers"></div>
+
+<div data-bind="if: loaded && !users().length">
+no similar users
+</div>
+
+<div data-bind="if: loaded && users().length">
+
+<h3>Users</h3>
+<div style="margin: 6px 12px" data-bind="foreach: users">
+<a class="for-img" data-bind="attr: {'href': '/' + user}">
+<img class="small link" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + img }" />
+</a>
+</div>
+
+</div>
+
+<div class="type-dividers"></div>
+</div>
+
+{% endblock time-line-fields %}
+
+{% block tailScripts %}
+
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/calTag.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/dateTitle.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/main_page_app.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/searchHolder.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/searchUserHolder.js"></script>
+{% endblock %}

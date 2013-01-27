@@ -1,0 +1,142 @@
+{% extends "mail_base.html" %} 
+
+{% block content %}
+    <table style="color: #333333; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" cellpadding="0" cellspacing="0" border="0" align="center">
+    <tr>
+    <td>
+      <a href="{{ HOME }}{% url mainPage.views.main_page %}"><img height="50%" width="50%" src="{{ HOME }}{{ STATIC_URL }}trans-logo.png" /></a>
+    </td>
+    <td width="560">
+    </td>
+    </tr>
+    <tr height="10"><td></td><td></td></tr>
+
+    <tr>
+    <td colspan="2" style="padding-left: 10px; padding-right: 10px" width="700" valign="bottom">
+
+      <table><tr>
+      <td>
+      {% if context.type == "cancel" or context.type == "response" %}
+      {% if context.from_user_first_name %}
+      <b>{{ context.from_user_first_name }}</b> ({{ from_user }})
+      {% endif %}
+      {% if not context.from_user_first_name %}
+      <b>{{ context.from_user }},</b>
+      {% endif %}
+
+      {% if context.type == "response" %}
+      {% if context.accepted %}
+      accepted your invite to 
+      {% endif %}
+      {% if not context.accepted %}
+      is unable to make
+      {% endif %}
+      '{{ context.title }}'
+
+      <br />
+      <a href="{{ HOME }}{% url mainPage.views.main_page for_date=context.event_date|date:'Y/m/d' %}">see more</a>
+      {% endif %}
+
+      {% if context.type == "cancel" %}
+      <img height="20" src="{{ HOME }}{{ MEDIA_URL }}{{ context.img }}" >
+      <a href="{{ HOME }}{{ context.from_user }}">{{ context.from_user }}</a>
+      cancelled
+      '{{ context.title }}'
+      <br />
+      <a href="{{ HOME }}{% url mainPage.views.main_page for_date=context.event_date|date:'Y/m/d' %}">see more</a>
+      {% endif %}
+      {% endif %}
+
+      {% if context.type == "invite" %}
+      <a href="{{ HOME }}{{ context.from_user }}">{{ context.from_user }}</a>
+      invited you to an event on
+      <a href = "{{ HOME }}/d/{{ context.event.event_date|date:'Y/M/d' }}">
+      {{ context.event.event_date|date:'jMY' }}
+      </a>
+      {% endif %}
+
+      {% if context.type == "early_notification" %}
+      <b>"{{ context.event.get_title }}"</b> is tomorrow
+      {% endif %}
+
+      {% if context.type == "mention" %}
+      <a href="{{ HOME }}{{ context.creator }}">{{ context.creator }}</a>
+      mentioned you in a note for 
+      <a href = "{{ HOME }}/d/{{ context.event.event_date|date:'Y/m/d' }}">
+      {{ context.event.event_date|date:'jMY' }}
+      </a>
+      {% endif %}
+
+      {% if context.type == "comment" %}
+      <a href="{{ HOME }}{{ context.creator }}">{{ context.creator }}</a>
+      comment on an event you've added on 
+      <a href = "{{ HOME }}/d/{{ context.event.event_date|date:'Y/m/d' }}">
+      {{ context.event.event_date|date:'jMY' }}
+      </a>
+      {% endif %}
+
+      {% if context.type == "share" %}
+      <a href="{{ HOME }}{{ context.creator }}">{{ context.creator }}</a>
+      shared a note on 
+      <a href = "{{ HOME }}/d/{{ context.event.event_date|date:'Y/m/d' }}">
+      {{ context.event.event_date|date:'jMY' }}
+      </a>
+      {% endif %}
+    </td>
+    </tr>
+    <tr>
+    <td height="30"></td>
+    <td></td>
+    </tr>
+
+    </table>
+</td>
+</tr>
+    </table> 
+    {% if context.event %}
+    <table width="848" style="border: 1px solid #DDDDDD; border-radius: 5px" ellpadding="0" cellspacing="0" border="0" align="center">
+    <tr><td rowspan="3" width="10"></td>
+      <td width="20" rowspan="3"><img src="{{ HOME }}{{ MEDIA_URL }}{{ context.event.img }}" ></td>
+      <td width="20" rowspan="3"></td>
+      <td>
+        {{ context.event.event_date|date:'jMY' }}
+        {% if context.event.event_time %}
+        {{ context.event.event_time }}
+        {% endif %}
+        {% if event.venue %}
+        at
+          {{ event.get_venue.name }}({{ event.get_venue.postcode }})</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>{{ context.event.get_title }}</td>
+    </tr> 
+    <tr>
+      <td width="748"></td>
+      <td>
+          {% if context.event.get_description %}
+          context.event.get_description
+          {% endif %}
+      </td>
+      <td width="748"></td> 
+    </tr>
+    <tr>
+    <td width="20"></td>
+  <td colspan="2">
+    {% if context.event.get_time %}
+    <a href="{{ HOME }}{% url mainPage.views.main_page for_date=context.event.event_date|date:'Y/m/d' %}#{{context.event_time.get_time|time:'H:i'}}">see more</a>
+  {% endif %}
+  {% if not context.event.get_time %}
+  <a href="{{ HOME }}{% url mainPage.views.main_page for_date=context.event.event_date|date:'Y/m/d' %}#{{context.event_time.get_time|time:'H:i'}}">see more</a>
+  {% endif %}
+</tr>
+</table>
+
+    {% endif %}
+
+
+
+{% endblock content %}
+
+

@@ -1,0 +1,65 @@
+<script type="text/html" id="attendees">
+<div class="span10 offset1 bottom-container">
+<div class="box-closer"><a data-bind="click: closeBox" class="close">&times;</a></div>
+<div data-bind="if: loading">
+<div data-bind="template: {'name': 'loading'}"></div>
+</div>
+
+<div data-bind="if: !loading()" style="margin-top: 15px">
+<div class="row-fluid" data-bind="foreach: attendees">
+<div data-bind="template: {'name': 'cal'}"></div>
+</div>
+
+<div class="row-fluid" data-bind="foreach: tags">
+<div data-bind="template: {'name': 'tag'}"></div>
+</div>
+</div>
+
+</div>
+</script>	
+
+<script type="text/html" id="cal">
+	<div class="attending_holder pull-left">
+	<a data-bind="attr: { 'href': '/' + name, 'title': name }" class="highlight">
+	<img class="large attendee_img" rel="tooltip" data-bind="attr: {'src': '{{ MEDIA_URL }}' + img_normal }, 'tooltip': name" />
+	</a>
+
+	<!-- ko if: !selected() -->
+	<a data-bind="click: function(){ $data.select() }" class="highlight see-through">
+		<img class="attending_status right_img_small" title="track" src="{{ STATIC_URL }}/main/img/icons/tracks-grey.png" /> 
+	</a>
+	<!-- /ko -->
+	<!-- ko if: selected() -->
+	<a data-bind="click: function(){ $data.select() }" class="highlight">
+	<img class="attending_status right_img_small" title="track" src="{{ STATIC_URL }}/main/img/icons/tracks-redder.png" /> 
+	</a>
+	<!-- /ko -->
+	</div>
+</script>
+
+
+
+<script type="text/html" id="tag">
+	<div style="margin-top: 20px" class="attending_holder wide">
+	<a data-bind="attr: { 'href': '/t/' + name }" class="highlight">
+		<div data-bind="text: '#'+ name" class="attendee_tag"></div>
+	</a>
+
+	<!-- ko if: !selected() -->
+	<a data-bind="click: function(){ $data.select() }" class="highlight see-through">
+		<img class="attending_status right_tag" title="track" src="{{ STATIC_URL }}/main/img/icons/tracks-grey.png" /> 
+	</a>
+	<!-- /ko -->
+	<!-- ko if: selected() -->
+	<a data-bind="click: function(){ $data.select() }" class="highlight">
+	<img class="attending_status right_tag" title="track" src="{{ STATIC_URL }}/main/img/icons/tracks-redder.png" /> 
+	</a>
+	<!-- /ko -->
+	</div>
+</script>
+
+
+
+
+
+

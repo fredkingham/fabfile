@@ -1,0 +1,92 @@
+{% extends "site_base.html" %} 
+
+
+{% block extra-info %}
+{% comment %}
+takes in name, img, description, track, number of events, number of trackers, number of trackees, number of tags  
+{% endcomment %}
+
+
+
+
+
+
+<div data-bind="with: $root.objects.sideBar">
+<div data-bind="if: loaded">
+<div class="page_title">
+<span data-bind="if: details.img !== undefined">
+<img class="large" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + details.img, 'title': details.name}" />
+</span>
+<div style="height: 10px"></div>
+<h4>
+<span data-bind="if: type === 'tag'">#</span>
+<span data-bind="text: details.name"></span> 
+</h4>
+<div style="height: 20px"></div>
+<div data-bind="if: details.description !== undefined">
+<span data-bind="text: details.description"></span>  
+</div>
+<div style="height: 30px"></div>
+<a href="#" data-bind="click: function(){ $data.track() }">
+  <!-- ko if: !selected() -->
+  <img class="small-icon" src="{{ STATIC_URL }}/main/img/icons/tracks-grey.png" /> 
+  <!-- /ko -->
+  <!-- ko if: selected() -->
+  <img class="small-icon" src="{{ STATIC_URL }}/main/img/icons/tracks-redder.png" /> 
+  <!-- /ko -->
+  <span data-bind="text: details.name"></span></a>
+</div>
+
+<div class="details">
+<div class="row-fluid small-text left-row">
+<div class="text span12">
+<a data-bind="attr: {'href': link.eventLink}">
+<span data-bind="text: details.event_count"></span> events
+</a>
+</div>
+</div>
+<div data-bind="if: details.trackee_count !== undefined">
+<div class="row-fluid small-text left-row">
+<div class="text span12">
+<a data-bind="attr: {'href': link.trackingLink}">
+<span data-bind="text: details.trackee_count"></span> tracking
+</a>
+</div>
+</div>
+</div>
+
+<div class="row-fluid small-text left-row">
+<div class="text span12">
+<a data-bind="attr: {'href': link.trackerLink}">
+tracked by <span data-bind="text: details.tracking_count"></span>
+</a>
+</div>
+</div>
+<div data-bind="if: details.tag_count !== undefined">
+<div class="row-fluid small-text left-row">
+<div class="text span12">
+<a data-bind="attr: {'href': link.tagLink}">
+tags <span data-bind="text: details.tag_count"></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+{% endblock extra-info %}
+
+
+{% block left-side-templates %}
+
+
+{% endblock left-side-templates %}
+
+{% block left-side-scripts %}
+<script  type="text/javascript" src="{{ STATIC_URL }}main/js/leftSide.js"></script>
+{% endblock left-side-scripts %}

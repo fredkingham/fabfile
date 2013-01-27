@@ -1,0 +1,129 @@
+{% extends "index.html" %}
+{% block events %}
+<div data-bind="with: $root.objects.eventHolder">
+<!-- ko if: loading() -->
+<div id="events">
+<div id="cals-load"><img src="{{ STATIC_URL }}loading.gif" /></div>
+</div>
+<!-- /ko -->
+<!-- ko if: !loading() -->
+<div id="events" data-bind="foreach: notifications">
+<!-- ko if: $root.objects.eventHolder.dateChange($index) -->
+<div data-bind="template: { 'name': 'datetmp', 'data': $root.dateTitleFactory(date) }"></div>
+<!-- /ko -->
+
+<!-- ko if: !$root.objects.eventHolder.dateChange($index) -->
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<!-- /ko -->
+<div class="event" data-bind="template: { name: type }"></div>
+</div>
+<!-- /ko -->
+<div data-bind="scrollBottom: updating() && !loading(), scrollOptions: { 'loadFunc': update }">
+<div class="clear-both"></div>
+<div class="event-divider"></div>
+<div class="loading"></div>
+</div>
+</div>
+
+<script type="text/html" id="invite">
+<div class="row">
+
+<div class="span5 notification-title">
+  <a data-bind="attr: {'href': '/' + from_user }">
+  <span data-bind="text: from_user"></span></a> invited you to an event on <a data-bind="text: event.date.displayName(), attr: { 'href': '/d/' + event.date.asLink() }"></a>:
+</div>
+</div>
+</div>
+<div data-bind="template: { 'name': 'eventTmp', 'data': event}"></div>
+</script>
+
+<script type="text/html" id="response">
+<div class="row">
+<div class="span1">
+  <img style="margin-left: 10px;" class="pull-left large" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + img }" />
+</div>
+<div class="span5 notification-title">
+  <a data-bind="text: from_user, attr: { 'href': '/' + from_user }"></a>
+  <!-- ko if: accepted -->
+  accepted your invite to 
+  <!-- /ko -->
+  <!-- ko if: !accepted -->
+  is unable to make 
+  <!-- /ko -->
+  "<b data-bind='text: title'></b>" on <a data-bind="text: eventDate.displayName(), attr: { 'href': '/d/' + eventDate.asLink() }"></a></div>
+</div>
+<div class="event-bottom">
+</div>
+</script>
+
+<script type="text/html" id="cancel">
+<div class="row">
+<div class="span1">
+  <img style="margin-left: 10px;" class="pull-left large" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + img }" />
+</div>
+<div class="span5 notification-title">
+  <a data-bind="text: from_user, attr: { 'href': '/' + from_user }"></a>
+  cancelled
+  "<b data-bind='text: title'></b>" on <a data-bind="text: eventDate.displayName(), attr: { 'href': '/d/' + eventDate.asLink() }"></a></div>
+</div>
+<div class="event-bottom">
+</div>
+</script>
+
+<script type="text/html" id="mention">
+<div class="row">
+
+<div class="span5 notification-title">
+  <a data-bind="attr: {'href': '/' + creator }">
+  <span data-bind="text: creator"></span></a> mentioned you in a note for <a data-bind="text: event.date.displayName(), attr: { 'href': '/d/' + eventDate.asLink() }"></a>:
+</div>
+</div>
+</div>
+<div data-bind="template: { 'name': 'eventTmp', 'data': event}"></div>
+</script>
+
+<script type="text/html" id="comment">
+<div class="row">
+
+<div class="span5 notification-title">
+  <a data-bind="attr: {'href': '/' + creator }">
+  <span data-bind="text: creator"></span></a> commented on your note for <a data-bind="text: event.date.displayName(), attr: { 'href': '/d/' + event.date.asLink() }"></a>:
+</div>
+</div>
+</div>
+<div data-bind="template: { 'name': 'eventTmp', 'data': event}"></div>
+</script>
+
+<script type="text/html" id="share">
+<div class="row">
+
+<div class="span5 notification-title">
+  <a data-bind="attr: {'href': '/' + creator }">
+  <span data-bind="text: creator"></span></a> shared a note on <a data-bind="text: event.date.displayName(), attr: { 'href': '/d/' + event.date.asLink() }"></a>:
+</div>
+</div>
+</div>
+<div data-bind="template: { 'name': 'eventTmp', 'data': event}"></div>
+</script>
+
+
+<script type="text/html" id="change">
+<div class="row">
+<div class="span1">
+  <img style="margin-left: 10px;" class="pull-left large" data-bind="attr: { 'src': '{{ MEDIA_URL }}' + event_img }" />
+</div>
+<div class="span5 event-title">
+<b data-bind="text: creator"></b> suggested moving "<b daa-bind='text: title'></b>"
+</div></div>
+<!-- <div data-bind="template: { name: 'note' }"></div> -->
+</script>
+{% endblock %}
+
+
+{% block tailScripts %}
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/calTag.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/dateTitle.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}figg_main_page/app/main_page_app.js"></script>
+<script src="{{ STATIC_URL }}figg_main_page/app/updates.js"></script>
+{% endblock %}

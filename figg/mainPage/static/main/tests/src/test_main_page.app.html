@@ -1,0 +1,68 @@
+<html>
+<head>
+  <!-- test lib scripts -->
+<script src="../../../test-lib/mocha/mocha.js"></script>
+<script> mocha.setup({ui: 'bdd', ignoreLeaks: true});</script>
+
+<script src="../../../test-lib/chai.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../test-lib/mocha/mocha.css" />
+
+
+  <!-- lib scripts -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.1.0.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-transition.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-alert.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-modal.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-popover.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-button.js"></script>
+<script src="../../../twitter-bootstrap/js/bootstrap-tab.js"></script>
+
+  <!-- test libs -->
+<script src="utils.js"></script>
+<script src="test.js"></script>
+
+
+<script type="text/javascript">
+
+function Figg(){}
+figg = new Figg();
+function DocInfo(csrf, pageDate, media, staticImgs){
+  this.csrf = csrf;
+  this.pageDate = pageDate;
+  this.media = media;
+  this.static = staticImgs;
+}
+
+var DOCINFO = new DocInfo("", new Date(), "../../../../umedia/", "../../..");
+
+</script>
+
+
+</head>
+<body>
+  <!-- app scripts -->
+  <script  type="text/javascript" src="../../../figg_main_page/app/app.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/calTag.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/dateTitle.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/dateLine.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/calHolder.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/main_page_app.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/eventHolder.js"></script>
+  <script  type="text/javascript" src="../../../figg_main_page/app/initialise.js"></script>
+<div id="mocha"></div>
+
+<script>
+  mocha.run();
+</script>
+</body>
+
+
+
+
+</html>

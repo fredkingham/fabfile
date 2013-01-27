@@ -1,0 +1,20 @@
+{{ msg }} {{ context.event.event_date|date:'jMY' }} {{ context.event.event_time }} {% if event.get_venue %} at context.event.venue.name ({{ context.event.venue.postcode }}) {% endif %} {{ event.get_title }}
+
+{% if event.get_description %}
+{{ event.get_description }}
+{% endif %}
+
+to see more
+{% if context.type == "response" or context.type == "cancel" %}
+{% comment %}
+<a href="{{ HOME }}{% url mainPage.views.main_page for_date=context.event.event_date|date:'Y/m/d' %}">see more</a>
+{% endcomment %}
+{% endif %}
+{% if context.type != "response" and context.type != "cancel" %}
+{% if context.event.get_time %}
+fi.gg{% url mainPage.views.main_page for_date=context.event.event_date|date:'Y/m/d' %}#{{context.event_time.get_time|time:'H:i'}}
+{% endif %}
+{% if not context.event.get_time %}
+fi.gg{% url mainPage.views.main_page for_date=context.event.event_date|date:'Y/m/d' %}
+{% endif %}
+{% endif %}
