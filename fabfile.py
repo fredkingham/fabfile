@@ -71,6 +71,6 @@ def remove(name):
     with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
         with settings(warn_only=True):
             local("rmvirtualenv %s" % name)
-            local("rm -r %s" % name)
+            local("rm -rf %s" % name)
 
 
