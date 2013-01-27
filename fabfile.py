@@ -34,6 +34,7 @@ def project_setup(name, init_git, empty, requirements_in):
         else:
             local("pip install ipython")
             local("pip install django")
+            local("pip install ipdb")
 
 
     local("django-admin.py startproject --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % name)
