@@ -37,9 +37,11 @@ def project_setup(name, init_git, empty, requirements_in):
             local("pip install ipdb")
 
 
+    project_name = "%s_project" % name
     local("django-admin.py startproject --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % name)
+    local("mv %s %s" % (name, project_name))
 
-    with lcd(name):
+    with lcd(project_name):
         local("pip freeze > requirements.txt")
         if init_git:
             local("git init")
