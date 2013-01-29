@@ -1,4 +1,4 @@
-from fabric.api import env, task, sudo, settings, cd, run
+from fabric.api import env, task, sudo, cd, run, local
 from fabric.contrib.project import rsync_project
 from fabric.contrib.files import sed
 
@@ -11,6 +11,7 @@ deploy_password = "ojzwdasdf"
 
 @task
 def push_to_prod():
+    local("git push origin master -m 'pushing the latest version'")
     remote_directory = "/home/ec2-user/figg_project"
     local_directory = "figg"
     rsync_project(remote_dir = remote_directory, local_dir = local_directory)

@@ -20,7 +20,7 @@ $("body").css("opacity", 0);
 {% csrf_token %}
 {% block events %}
 
-<!-- search or events holder -->
+<!-- infinite loading top boundary -->
 <div data-bind="with: $root.objects.streamHolder">
 <div data-bind="visible: loading">
   <div id="cals-load">
