@@ -11,7 +11,8 @@ deploy_password = "ojzwdasdf"
 
 @task
 def push_to_prod():
-    local("git push origin master -m 'pushing the latest version'")
+    local('git commit -a -m "updating files"')
+    local("git push origin master")
     remote_directory = "/home/ec2-user/figg_project"
     local_directory = "figg"
     rsync_project(remote_dir = remote_directory, local_dir = local_directory)

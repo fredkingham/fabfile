@@ -13,3 +13,9 @@ ERROR 2013-01-24 17:22:36,821 event_calculation 37752 140735155026272 unexpected
 ERROR 2013-01-24 17:22:36,832 event_calculation 37752 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
 ERROR 2013-01-24 17:22:38,360 views 37752 140735155026272 form is invalid with <ul class="errorlist"><li>end_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
 ERROR 2013-01-24 17:22:38,530 views 37752 140735155026272 form is invalid with <ul class="errorlist"><li>start_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-01-29 12:40:25,883 event_calculation 63873 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-07-01 None A truly random name blah None False
+ERROR 2013-01-29 12:40:28,713 views 63873 140735155026272 form is invalid with <ul class="errorlist"><li>event_date<ul class="errorlist"><li>This field is required.</li></ul></li><li>event<ul class="errorlist"><li>This field is required.</li></ul></li><li>title<ul class="errorlist"><li>Ensure this value has at most 100 characters (it has 150).</li></ul></li></ul>
+ERROR 2013-01-29 12:40:31,854 event_calculation 63873 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
+ERROR 2013-01-29 12:40:31,864 event_calculation 63873 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
+ERROR 2013-01-29 12:40:34,199 views 63873 140735155026272 form is invalid with <ul class="errorlist"><li>end_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-01-29 12:40:34,423 views 63873 140735155026272 form is invalid with <ul class="errorlist"><li>start_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>

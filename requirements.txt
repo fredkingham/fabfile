@@ -1,3 +1,16 @@
 Django==1.4.3
+PIL==1.1.7
+django-appconf==0.6
+django-debug-toolbar==0.9.4
+django-imagekit==2.0.2
+hotqueue==0.2.7
+httplib2==0.7.7
 ipython==0.13.1
+oauth2==1.5.211
+psycopg2==2.4.6
+python-dateutil==2.1
+python-openid==2.2.5
+redis==2.7.2
+six==1.2.0
+tweepy==1.13
 wsgiref==0.1.2
