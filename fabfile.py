@@ -5,8 +5,6 @@ from fabric.contrib.files import sed
 env.key_filename = "nother.pem"
 env.hosts = ["46.137.84.215"]
 env.user = "ec2-user"
-deploy_user = "djangotest"
-deploy_password = "ojzwdasdf"
 
 
 @task
@@ -19,7 +17,7 @@ def push_to_prod():
     with cd("/home/ec2-user/figg_project/figg/figg"):
         sed("settings.py", "DEBUG = True", "DEBUG = False")
     with cd("/home/ec2-user/figg_project/figg"):
-        run("python manage.py collectstatic --noinput")
+        run("~/.virtualenvs/figg/bin/python manage.py collectstatic --noinput")
 
     sudo("service httpd restart")
 
