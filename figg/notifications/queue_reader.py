@@ -1,5 +1,6 @@
 from hotqueue import HotQueue
-import settings, sys, traceback
+import sys, traceback
+from django.conf import settings
 queue = HotQueue(settings.QUEUE_NAME)
 from notifications import queue_writer, mail_calculation
 import logging
@@ -8,9 +9,6 @@ logger = logging.getLogger(__name__)
 def process_queue():
     for item in queue.consume():
         try:
-            args = item.get("args", [])
-            kwargs = item.get("kwargs", {})
-
             if item["obj_type"] == queue_writer.NOTIFICATION:
                 mail_calculation.notify(item["args"])
         except:

@@ -33,7 +33,6 @@ def read_notification(request):
 
     return HttpResponse(simplejson.dumps(0), mimetype='application/json')
 
-
 def updates(request):
     '''returns a page for all the users updates'''
     if request.method == 'GET' and request.user.is_authenticated():

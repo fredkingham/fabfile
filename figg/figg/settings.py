@@ -174,7 +174,14 @@ INSTALLED_APPS = (
     'tweepy',
     'imagekit',
     'web_crawler',
+    'kombu.transport.django',  
+    'djcelery', 
 )
+
+BROKER_URL = "redis://localhost"
+
+import djcelery  
+djcelery.setup_loader()
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

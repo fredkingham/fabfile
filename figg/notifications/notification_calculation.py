@@ -5,6 +5,9 @@ from notifications import NotificationException
 from mainPage.models import AttendingStatus
 from mainPage import note_calculation
 
+import logging
+logger = logging.getLogger(__name__)
+
 def calculate_shares(query):
     shares = query.values("user_details__user_img_mini", "username")
     result = []
@@ -157,65 +160,5 @@ def get_notification_context(notification):
             result = NotedNotification(**row)
 
         return result
-
-
-#        elif notification_type == notification.CHANGE:
-#            detail = notification.detail_note
-#            note = detail.note
-#
-#            if note.deleted:
-#                return
-#
-#            event_times = note.event_times.all()
-#            if len(event_times):
-#                statuses = AttendingStatus.objects.filter(user = notification.user, event_time__in = event_times)
-#
-#                if not len(statuses):
-#                    statuses = AttendingStatus.objects.filter(user = note.creator, event_time__in = event_times)
-#
-#                if not len(statuses):
-#                    raise "unable to find a statuses"
-#
-#                row['event'] = get_event_structs(statuses, notification.user)
-#            else:
-#                raise "no event_times???"
-#
-#            row['notes'] = note_calculation.get_notes(event_times[0].id, notification.user)
-
-
-
-#            row["creator"] = note.creator.username
-#            row["note_id"] = note.id
-#            row["detail_id"] = detail.id
-#            row["description"] = note.description
-#            row["to_date"] = detail.event_time.date
-#
-#            title = detail.event_time.event.title
-#            shares = note.published.all()
-#            row["shares"] = calculate_shares(shares)
-#            row["shared"]= bool(shares.filter(id = user.id))
-#
-#            if notification_type == notification.CHANGE:
-#                row["detail_msg"] = "moved to "
-#            else:
-#                row["detail_msg"] = "accepted a moved to "
-#
-#            approvals = detail.approved.all().values("user_details__user_img_mini", "username")
-
-#            if not approvals:
-#                continue
-
-#            row["approvals"] = []
-#            row["accepted"] = bool(detail.approved.filter(id = user.id))
-
-#            for approval in approvals:
-#                row["approvals"].append({"accepter": approval["username"], "accepter_img": approval["user_details__user_img_mini"]})
-            
-#            if row["approvals"]:
-#                row["details"] = True 
-#            else:
-#                row["details"] = False 
-
-#            notification_response[(notification_type, detail.id)] = row
 
 
