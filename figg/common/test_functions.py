@@ -7,6 +7,7 @@ from mainPage import event_creator
 from notifications.models import *
 from twitter.models import *
 from figg_calendar.models import *
+from web_crawler.models import *
 from datetime import date
 
 
@@ -109,6 +110,7 @@ def clean_up():
     TrackingVenue.objects.all().delete()
     TrackingTag.objects.all().delete()
     TrackingSeries.objects.all().delete()
+    ExtractStatus.objects.all().delete()
     clean_queue()
 
 def total_clean_up():

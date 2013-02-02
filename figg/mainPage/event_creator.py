@@ -3,6 +3,7 @@ from django.utils.html import strip_tags
 from mainPage import preview_calculation, tag_calculation, event_key, note_calculation
 from common.figgDate import FiggDate
 from event_calculation import process_img
+from datetime import datetime
 
 def submit_event(event_date, title, description, user, event_time = None, event_venue = None, invited = [], public = False, repeat_regularity = None, repeat_until = None, img = None, img_id = None):
 
@@ -34,32 +35,51 @@ def submit_event(event_date, title, description, user, event_time = None, event_
     else:
         venue = None
 
-    events = []
+    uncommitted_events = []
+    updated = datetime.now()
 
     for event_time in event_times:
-        event = Event()
-        event.key = event_key.create_date_key(event_time.date, event_time.time)
-        event.date = event_time.date
-        event.time = event_time.time
-        event.description = cleaned_description
-        event.title = cleaned_title
-        event.venue = venue
-        event.public = public
-        event.img = event_img
-        event.save()
-        events.append(event)
-        created = AttendingStatus(status = AttendingStatus.CREATOR, event = event, user = user, public = public)
-        created.save()
-        added = AttendingStatus(status = AttendingStatus.ADDED, event = event, user = user, public = public)
-        added.save()
-        if invited:
-            note_calculation.invite(user, invited, event)
-        tag_calculation.save_tags_for_events(cleaned_title, cleaned_description, user, event)
+        event = translate_event_time_to_event(event_time, cleaned_description, cleaned_title, venue, public, event_img, updated)
+        uncommitted_events.append(event)
+
+    Event.objects.bulk_create(uncommitted_events)
+
+    events = Event.objects.filter(title = title, updated = updated)
+
+    attending_statuses = []
+
+    for event in events:
+        created = AttendingStatus(status = AttendingStatus.CREATOR, event = event, user = user, public = public, updated = updated)
+        added = AttendingStatus(status = AttendingStatus.ADDED, event = event, user = user, public = public, updated = updated)
+        attending_statuses.extend([added, created])
+
+
+    AttendingStatus.objects.bulk_create(attending_statuses)
 
     if len(events) > 1:
-        event_series = EventSeries()    
-        event_series.save()
-        event_series.event_set.add(*events)
+          event_series = EventSeries()    
+          event_series.save()
+          event_series.event_set.add(*events)
+
+    for event in events:
+         if invited:
+             note_calculation.invite(user, invited, event)
+         tag_calculation.save_tags_for_events(cleaned_title, cleaned_description, user, event)
+
+
+def translate_event_time_to_event(event_time, cleaned_description, cleaned_title, venue, public, event_img, updated):
+    event = Event()
+    event.key = event_key.create_date_key(event_time.date, event_time.time)
+    event.date = event_time.date
+    event.time = event_time.time
+    event.description = cleaned_description
+    event.title = cleaned_title
+    event.venue = venue
+    event.public = public
+    event.img = event_img
+    event.updated = updated
+
+    return event
 
 class EventCreationException(Exception):
     pass
