@@ -19,6 +19,7 @@ def push_to_prod():
         sed("settings.py", "DEBUG = True", "DEBUG = False")
     with cd("/home/ec2-user/figg_project/figg"):
         run("~/.virtualenvs/figg/bin/python manage.py collectstatic --noinput")
+        run("~/.virtualenvs/figg/bin/python manage.py syncdb")
     with cd("/home/ec2-user/figg_project/figg"):
         with prefix("source /usr/bin/virtualenvwrapper.sh && workon figg"):
             run("pip install -r requirements.txt")
