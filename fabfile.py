@@ -11,8 +11,9 @@ LOCAL_DIR = "figg"
 
 @task
 def push_to_prod():
-    with lcd(LOCAL_DIR):
-        local("pip freeze > requirements.txt")
+    with prefix("source /usr/local/bin/virtualenvwrapper.sh && workon figg"):
+        with lcd(LOCAL_DIR):
+            local("pip freeze > requirements.txt")
     local('git commit -a -m "updating files"')
     local("git push origin master")
     rsync_project(remote_dir = REMOTE_DIR, local_dir = LOCAL_DIR)
@@ -22,7 +23,7 @@ def push_to_prod():
         run("~/.virtualenvs/figg/bin/python manage.py collectstatic --noinput")
         run("~/.virtualenvs/figg/bin/python manage.py syncdb")
 
-    with cd("/home/ec2-user/figg_project/figg/figg"):
+    with cd("/home/ec2-user/figg_project/figg"):
         with prefix("source /usr/bin/virtualenvwrapper.sh && workon figg"):
             run("pip install -r requirements.txt")
 
