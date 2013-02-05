@@ -31,3 +31,11 @@ ERROR 2013-02-01 16:32:36,042 event_calculation 10301 140735155026272 unexpected
 ERROR 2013-02-01 16:32:36,053 event_calculation 10301 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
 ERROR 2013-02-01 16:32:37,594 views 10301 140735155026272 form is invalid with <ul class="errorlist"><li>end_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
 ERROR 2013-02-01 16:32:37,781 views 10301 140735155026272 form is invalid with <ul class="errorlist"><li>start_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-02-04 12:03:31,605 views 19644 140735155026272 form is invalid with <ul class="errorlist"><li>end_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-02-04 12:03:31,775 views 19644 140735155026272 form is invalid with <ul class="errorlist"><li>start_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-02-04 13:35:41,649 event_calculation 20796 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-07-01 None A truly random name blah None False
+ERROR 2013-02-04 13:35:44,957 views 20796 140735155026272 form is invalid with <ul class="errorlist"><li>event_date<ul class="errorlist"><li>This field is required.</li></ul></li><li>event<ul class="errorlist"><li>This field is required.</li></ul></li><li>title<ul class="errorlist"><li>Ensure this value has at most 100 characters (it has 150).</li></ul></li></ul>
+ERROR 2013-02-04 13:35:48,208 event_calculation 20796 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
+ERROR 2013-02-04 13:35:48,219 event_calculation 20796 140735155026272 unexpected user Dave trying to edit <class 'mainPage.models.Event'>: 2012-06-20 None something today None False
+ERROR 2013-02-04 13:35:49,728 views 20796 140735155026272 form is invalid with <ul class="errorlist"><li>end_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+ERROR 2013-02-04 13:35:49,901 views 20796 140735155026272 form is invalid with <ul class="errorlist"><li>start_date<ul class="errorlist"><li>This field is required.</li></ul></li></ul>

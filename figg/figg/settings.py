@@ -5,7 +5,7 @@ import manage
 
 SITE_ROOT = os.path.dirname(os.path.realpath(manage.__file__))
 print "site root %s" % SITE_ROOT
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 TEST = "test" in sys.argv
 TWITTER_CONSUMER_TOKEN = "6s2rtDUZPjVaLrId06uHw"

@@ -66,6 +66,8 @@ def populate():
     User.objects.create_user('Dave', 'Dave@gmail.com', 'Davepassword')
     User.objects.create_user('Bob', 'Bob@gmail.com', 'Bobpassword')
     User.objects.create_user('Fred', 'Fred@gmail.com', 'Fredpassword')
+    User.objects.create_user('figg_film', 'Fred@gmail.com', 'Fredpassword')
+    User.objects.create_user('figg_theatre', 'Fred@gmail.com', 'Fredpassword')
     User.objects.create_user('fredkingham', 'fredkingham@gmail.com', 'Fredpassword')
     ChosenFew.objects.create(user="Dave")
     ChosenFew.objects.create(user="Bob")

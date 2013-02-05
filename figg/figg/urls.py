@@ -5,18 +5,7 @@ from django.conf import settings
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-
-urlpatterns = patterns('')
-
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^umedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
-    )
-
-    urlpatterns += staticfiles_urlpatterns()
-
-
-urlpatterns += patterns('',
+urlpatterns = patterns('',
     url(r'', include('main.urls')),
     url(r'', include('twitter.urls')),
     url(r'', include('social_auth.urls')),
@@ -33,3 +22,10 @@ urlpatterns += patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^umedia/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
+    )
+
+    urlpatterns += staticfiles_urlpatterns()
