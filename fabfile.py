@@ -1,4 +1,4 @@
-from fabric.api import env, task, sudo, cd, run, local, prefix, lcd
+from fabric.api import env, task, sudo, cd, run, local, prefix
 from fabric.contrib.project import rsync_project
 from fabric.contrib.files import sed
 
@@ -20,8 +20,9 @@ def push_to_prod():
     with cd("/home/ec2-user/figg_project/figg"):
         run("~/.virtualenvs/figg/bin/python manage.py collectstatic --noinput")
         run("~/.virtualenvs/figg/bin/python manage.py syncdb")
-        
-    with prefix("source /usr/bin/virtualenvwrapper.sh && workon figg"):
-        run("pip install -r requirements.txt")
+
+    with cd(remote_directory):
+        with prefix("source /usr/bin/virtualenvwrapper.sh && workon figg"):
+            run("pip install -r requirements.txt")
 
     sudo("service httpd restart")
