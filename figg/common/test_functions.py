@@ -113,6 +113,7 @@ def clean_up():
     TrackingTag.objects.all().delete()
     TrackingSeries.objects.all().delete()
     ExtractStatus.objects.all().delete()
+    ImageExtract.objects.all().delete()
     clean_queue()
 
 def total_clean_up():

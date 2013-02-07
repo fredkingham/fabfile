@@ -40,6 +40,8 @@ def upload_to(instance, filename):
     return os.path.join('events', str(instance.id), filename)
 
 
+
+
 class EventImage(models.Model):
     img = models.ImageField(null=True, blank=True, upload_to=upload_to)
     large_img = ImageSpecField([Adjust(contrast=1.2, sharpness=1.1), ResizeToFit(height=100)], image_field='img', format='JPEG', options={'quality': 90})

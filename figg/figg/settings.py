@@ -20,7 +20,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
+DATABASES = {   
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',#'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         #'ENGINE': 'django.db.backends.', 'sqlite3' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.

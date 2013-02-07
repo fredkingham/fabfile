@@ -1,17 +1,20 @@
-import urllib, os
+import urllib
+import os
 from django.core.files import File
 from django.utils.translation import ugettext as _
-from mainPage.models import EventImage 
+from mainPage.models import EventImage
+
 
 class EventExtractHolder(object):
-    def __init__(self, user, events):
+    def __init__(self, user, events_to_links):
         self.user = user
-        self.events = events
+        self.events_to_links = events_to_links
 
 
 def get_one(collection):
     assert(len(collection) == 1)
     return collection[0]
+
 
 def get_and_save_img(img_url):
     result = urllib.urlretrieve(img_url)
@@ -25,7 +28,8 @@ def format_title_and_description(u_title, u_description, u_link):
         title = _(u_title[:100])
 
         if len(title) > 100:
-            description = "%s %s. Read More %s" % (u_title[100:], u_description, u_link)
+            description = "%s %s. Read More %s" % (
+                u_title[100:], u_description, u_link)
 
             if len(description) > 250:
                 description = "%s. Read More %s" % (u_title, u_link)
@@ -40,12 +44,3 @@ def format_title_and_description(u_title, u_description, u_link):
         description = _(description)
 
         return (title, description)
-
-
-
-
-
-
-
-
-
