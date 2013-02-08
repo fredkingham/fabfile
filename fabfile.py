@@ -1,30 +1,80 @@
-from fabric.api import env, task, sudo, cd, run, local, prefix, lcd
-from fabric.contrib.project import rsync_project
-from fabric.contrib.files import sed
+import os
+import sys
+from fabric.api import local, env, prefix, task
+from fabric.context_managers import settings, lcd
+env.host_string = "localhost"
+VIRTUAL_ENV_WRAPPER = "/usr/local/bin/virtualenvwrapper.sh"
 
-env.key_filename = "nother.pem"
-env.hosts = ["46.137.84.215"]
-env.user = "ec2-user"
-REMOTE_DIR = "/home/ec2-user/figg_project"
-LOCAL_DIR = "figg"
+"""requires virtualenvwrapper/virtualenv/pip/git sets up a virtual env with ipython and django and creates the project"""
 
+
+def require_variable(var_name):
+    """ check if a variable exists in the environment """
+    if var_name not in os.environ:
+        sys.stderr.write("var_name %s not found.\n\n" % var_name)
+        sys.exit(-1)
+
+#we need to move to our script directory
+#if we need to create
+
+
+def require_function(func_name):
+    if not function_exists(func_name):
+        sys.stderr.write("func_name %s not found.\n\n" % func_name)
+        sys.exit(-1)
+
+
+def function_exists(func_name):
+    return bool(local("which %s" % func_name, capture=True))
+
+def get_project_name(name):
+    return "%s_project" % name
+
+def project_setup(name, init_git, empty, requirements_in):
+    if not empty: 
+        if requirements_in:
+            local("pip install -r %s" % requirements_in)
+        else:
+            local("pip install ipython")
+            local("pip install django")
+            local("pip install ipdb")
+            local("pip install mock")
+
+
+    project_name = get_project_name()
+    local("django-admin.py startproject --template=https://github.com/fredkingham/django-simple-project/archive/master.zip %s" % name)
+    local("mv %s %s" % (name, project_name))
+
+    with lcd(project_name):
+        local("pip freeze > requirements.txt")
+        if init_git:
+            local("git init")
 
 @task
-def push_to_prod():
-    with prefix("source /usr/local/bin/virtualenvwrapper.sh && workon figg"):
-        with lcd(LOCAL_DIR):
-            local("pip freeze > requirements.txt")
-    local('git commit -a -m "updating files"')
-    local("git push origin master")
-    rsync_project(remote_dir = REMOTE_DIR, local_dir = LOCAL_DIR)
-    with cd("/home/ec2-user/figg_project/figg/figg"):
-        sed("settings.py", "DEBUG = True", "DEBUG = False")
-    with cd("/home/ec2-user/figg_project/figg"):
-        run("~/.virtualenvs/figg/bin/python manage.py collectstatic --noinput")
-        run("~/.virtualenvs/figg/bin/python manage.py syncdb")
+def create(name, init_git = True, empty=False, requirements_in=False):
+    require_variable("VIRTUALENVWRAPPER_HOOK_DIR")
+    require_function("pip")
+    require_function("python")
+    require_function("git")
 
-    with cd("/home/ec2-user/figg_project/figg"):
-        with prefix("source /usr/bin/virtualenvwrapper.sh && workon figg"):
-            run("pip install -r requirements.txt")
+    with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
+        with settings(warn_only=True):
+            virtual_envs = local("workon", capture=True).splitlines()
+            if name in virtual_envs:
+                raise Exception("virtual env %s already exists" % name)
 
-    sudo("service httpd restart")
+    with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
+        local("mkvirtualenv --no-site-packages %s" % name)
+
+    with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
+        with prefix("workon %s" % name):
+            project_setup(name, init_git, empty, requirements_in)
+
+@task
+def remove(name):
+    with prefix("source %s" % VIRTUAL_ENV_WRAPPER):
+        with settings(warn_only=True):
+            local("rmvirtualenv %s" % name)
+            local("rm -rf %s" % get_project_name(name))
+
+

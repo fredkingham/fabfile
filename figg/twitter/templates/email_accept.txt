@@ -1,8 +1,0 @@
-please go to
-
-{{ HOME }}{% url twitter.views.email_request username=username email_hash=email_hash %}
-
-to confirm this is in fact you
-
-Thanks!
-
