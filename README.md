@@ -1,3 +1,5 @@
+This is currently deprecated until I can update the project to work with the latest version of brunch
+
 fabfile
 =======
 curl -O https://raw.github.com/fredkingham/fabfile/master/fabfile.py
